@@ -3,6 +3,7 @@ package pl.zabrze.zs10.albumy3a;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewWykonawca;
     TextView textViewRok;
     TextView textViewPobrania;
+    int aktualny = 0;
 
 
     @Override
@@ -39,6 +41,39 @@ public class MainActivity extends AppCompatActivity {
 
         wyswietlPiesn(0);
 
+        buttonDalej.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        aktualny++;
+                        if(aktualny == albumy.size())
+                        {
+                            aktualny = 0;
+                        }
+                        wyswietlPiesn(aktualny);
+                    }
+                }
+        );
+        buttonWstecz.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        aktualny--;
+                        if(aktualny<0){
+                            aktualny = albumy.size()-1;
+                        }
+                        wyswietlPiesn(aktualny);
+                    }
+                }
+        );
+
+        buttonPobierz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                albumy.get(aktualny).zwiekszPobrania();
+                wyswietlPiesn(aktualny);
+            }
+        });
     }
 
     private void wyswietlPiesn(int i){
